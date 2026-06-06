@@ -12,38 +12,25 @@ body{
     text-align:center;
     overflow:hidden;
 }
-
-.container{
-    padding-top:35px;
-}
-
+.container{ padding-top:35px; }
 .logo{
     font-size:46px;
     font-weight:bold;
     color:#d8b4ff;
     text-shadow:0 0 20px #8a2be2;
 }
-
-.section{
-    margin-top:22px;
-}
-
+.section{ margin-top:22px; }
 .label{
     font-size:20px;
     color:#888;
     letter-spacing:2px;
 }
-
 .value{
     font-size:34px;
     color:white;
     text-shadow:0 0 15px #8a2be2;
 }
-
-.status{
-    color:#00ff99;
-}
-
+.status{ color:#00ff99; }
 .footer{
     margin-top:35px;
     color:#666;
@@ -55,51 +42,38 @@ body{
 <body>
 
 <div class="container">
+    <div class="logo">🔥 THE IRON HALO 🔥</div>
 
-<div class="logo">🔥 THE IRON HALO 🔥</div>
+    <div class="section">
+        <div class="label">CURRENT DJ</div>
+        <div class="value" id="dj">Offline</div>
+    </div>
 
-<div class="section">
-    <div class="label">CURRENT DJ</div>
-    <div class="value" id="dj">Loading...</div>
-</div>
+    <div class="section">
+        <div class="label">STATUS</div>
+        <div class="value status" id="status">Ready</div>
+    </div>
 
-<div class="section">
-    <div class="label">STATUS</div>
-    <div class="value status" id="status">Loading...</div>
-</div>
+    <div class="section">
+        <div class="label">NOW PLAYING</div>
+        <div class="value" id="song">Waiting for DJ Login</div>
+    </div>
 
-<div class="section">
-    <div class="label">NOW PLAYING</div>
-    <div class="value" id="song">Loading...</div>
-</div>
+    <div class="section">
+        <div class="label">NEXT DJ</div>
+        <div class="value" id="next">Available</div>
+    </div>
 
-<div class="section">
-    <div class="label">NEXT DJ</div>
-    <div class="value" id="next">Loading...</div>
-</div>
-
-<div class="footer">Iron Halo DJ Board</div>
-
+    <div class="footer">Iron Halo DJ Board</div>
 </div>
 
 <script>
-async function loadStatus() {
-    try {
-        const response = await fetch("status.json?cache=" + Date.now());
-        const data = await response.json();
+const params = new URLSearchParams(window.location.search);
 
-        document.getElementById("dj").textContent = data.dj;
-        document.getElementById("status").textContent = data.status;
-        document.getElementById("song").textContent = data.song;
-        document.getElementById("next").textContent = data.next;
-    }
-    catch(error) {
-        console.log(error);
-    }
-}
-
-loadStatus();
-setInterval(loadStatus, 10000);
+document.getElementById("dj").textContent = params.get("dj") || "Offline";
+document.getElementById("status").textContent = params.get("status") || "Ready";
+document.getElementById("song").textContent = params.get("song") || "Waiting for DJ Login";
+document.getElementById("next").textContent = params.get("next") || "Available";
 </script>
 
 </body>
