@@ -10,30 +10,32 @@ body{
     color:#b266ff;
     font-family:Arial, sans-serif;
     text-align:center;
+    overflow:hidden;
 }
 
 .container{
-    padding-top:40px;
+    padding-top:35px;
 }
 
 .logo{
-    font-size:48px;
+    font-size:46px;
     font-weight:bold;
     color:#d8b4ff;
     text-shadow:0 0 20px #8a2be2;
 }
 
 .section{
-    margin-top:30px;
+    margin-top:22px;
 }
 
 .label{
-    font-size:22px;
+    font-size:20px;
     color:#888;
+    letter-spacing:2px;
 }
 
 .value{
-    font-size:36px;
+    font-size:34px;
     color:white;
     text-shadow:0 0 15px #8a2be2;
 }
@@ -43,8 +45,9 @@ body{
 }
 
 .footer{
-    margin-top:40px;
+    margin-top:35px;
     color:#666;
+    font-size:16px;
 }
 </style>
 </head>
@@ -53,25 +56,51 @@ body{
 
 <div class="container">
 
-<div class="logo">
-🔥 THE IRON HALO 🔥
+<div class="logo">🔥 THE IRON HALO 🔥</div>
+
+<div class="section">
+    <div class="label">CURRENT DJ</div>
+    <div class="value" id="dj">Loading...</div>
 </div>
 
 <div class="section">
-<div class="label">CURRENT DJ</div>
-<div class="value">Offline</div>
+    <div class="label">STATUS</div>
+    <div class="value status" id="status">Loading...</div>
 </div>
 
 <div class="section">
-<div class="label">STATUS</div>
-<div class="value status">Ready</div>
+    <div class="label">NOW PLAYING</div>
+    <div class="value" id="song">Loading...</div>
 </div>
 
-<div class="footer">
-Iron Halo DJ Board
+<div class="section">
+    <div class="label">NEXT DJ</div>
+    <div class="value" id="next">Loading...</div>
 </div>
 
+<div class="footer">Iron Halo DJ Board</div>
+
 </div>
+
+<script>
+async function loadStatus() {
+    try {
+        const response = await fetch("status.json?cache=" + Date.now());
+        const data = await response.json();
+
+        document.getElementById("dj").textContent = data.dj;
+        document.getElementById("status").textContent = data.status;
+        document.getElementById("song").textContent = data.song;
+        document.getElementById("next").textContent = data.next;
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
+
+loadStatus();
+setInterval(loadStatus, 10000);
+</script>
 
 </body>
 </html>
